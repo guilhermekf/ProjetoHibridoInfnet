@@ -1,0 +1,29 @@
+{
+  "name": "ProjetoHibridoInfnet",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "mobx": "^4.1.1",
+    "mobx-react": "^5.0.0",
+    "native-base": "^2.4.1",
+    "react": "16.3.1",
+    "react-native": "0.54.2",
+    "react-native-image-placeholder": "^1.0.14",
+    "react-native-loading-spinner-overlay": "^0.5.2",
+    "react-native-scalable-image": "^0.4.0",
+    "react-navigation": "^1.5.11"
+  },
+  "devDependencies": {
+    "babel-jest": "22.4.3",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "22.4.3",
+    "react-test-renderer": "16.3.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
