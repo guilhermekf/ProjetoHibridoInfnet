@@ -55,8 +55,8 @@ export default class SearchScreen extends Component<IAppProps, SearchScreenState
 
 	showDetails = async (item: any) => {
         this.handleToggleLoading(true);
-		let movie = await OmdbService.detail(item.imdbID);
-		this.handleToggleLoading(false);
+        let movie = await OmdbService.detail(item.imdbID);
+        this.handleToggleLoading(false);
         this.props.store.movieDetail = movie
 		this.props.navigation.navigate('Detail');
 	};

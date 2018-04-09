@@ -21,7 +21,7 @@ class OmdbServiceClass {
 
 	detail = async(movieId: string): Promise<any> => {
 		try {
-			const res = await fetch(this.OMDB_DETAILS + movieId);
+            const res = await fetch(this.OMDB_DETAILS + movieId);
             const movie = await res.json();
 			return movie;
 		} catch (error) {

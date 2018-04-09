@@ -33,7 +33,7 @@ interface DetailScreenState extends IAppState {
 export default class MovieDetails extends Component<IAppProps, DetailScreenState> {
 	constructor(props: IAppProps) {
 		super(props);
-
+        
 		this.state = {
 			loading: false,
 			movie: this.props.store.movieDetail,
