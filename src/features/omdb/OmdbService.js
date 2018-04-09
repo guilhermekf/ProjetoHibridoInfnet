@@ -1,3 +1,5 @@
+import { IMovie } from "../../IStore";
+
 /**
  * @flow
  */
@@ -7,7 +9,7 @@ class OmdbServiceClass {
 	OMDB_SEARCH = 'http://www.omdbapi.com/?apikey=' + this.KEY + '&s=';
 	OMDB_DETAILS = 'http://www.omdbapi.com/?apikey=' + this.KEY + '&i=';
 
-	search = async (text: string): any => {
+	search = async (text: string): Promise<any> => {
 		try {
 			const res = await fetch(this.OMDB_SEARCH + text);
 			const movies = await res.json();
@@ -17,10 +19,10 @@ class OmdbServiceClass {
 		}
 	};
 
-	detail = async (movieId: number): any => {
+	detail = async(movieId: string): Promise<any> => {
 		try {
-			const res = await fetch(this.OMDB_SEARCH_DETAILS + movieId);
-			const movie = await res.json();
+			const res = await fetch(this.OMDB_DETAILS + movieId);
+            const movie = await res.json();
 			return movie;
 		} catch (error) {
 			alert(error);

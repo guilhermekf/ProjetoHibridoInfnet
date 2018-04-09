@@ -10,7 +10,7 @@ import ScalableImage from 'react-native-scalable-image';
 import resolveAssetSource from 'resolveAssetSource';
 import { splashStyle } from './style';
 import { FOOTER_HEIGHT, COMMON_STYLES } from '../../styles/global';
-
+import { NavigationActions } from 'react-navigation'
 
 interface imagesObject {
 	source: number;
@@ -65,7 +65,11 @@ export default class SplashScreen extends Component<IAppProps, SplashScreenState
 	};
 
 	onPressSearchButton = async () => {
-		this.props.navigation.navigate('Search');
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: 'Search' })]
+        });
+		this.props.navigation.dispatch(resetAction);
 	};
 
 	render() {

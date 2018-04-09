@@ -17,21 +17,25 @@ import {
 	Body,
 	Text
 } from 'native-base';
-import { OmdbService } from '../../features';
 import { COMMON_STYLES } from '../../styles/global';
 import { searchStyle } from './style';
 import ImageLoad from 'react-native-image-placeholder';
 import Spinner from 'react-native-loading-spinner-overlay';
+import { IAppState, IAppProps } from '../../AppsProps';
+import { OmdbService } from '../../features';
 
 interface SearchScreenState extends IAppState {
 	movieList: any;
 	windowHeight: number;
-	windowWidth: number;
+    windowWidth: number;
+    text: string;
 }
 export default class SearchScreen extends Component<IAppProps, SearchScreenState> {
-	constructor(props) {
+	constructor(props: IAppProps) {
 		super(props);
 		this.state = {
+            text: '',
+            loading: false,
 			movieList: [],
 			windowHeight: Dimensions.get('window').height,
 			windowWidth: Dimensions.get('window').width
@@ -39,17 +43,25 @@ export default class SearchScreen extends Component<IAppProps, SearchScreenState
 	}
 
 	_onSubmitEditing = async () => {
-		this.handleToggleLoading(true);
-		let movies = await OmdbService.search('akira');
-		this.handleToggleLoading(false);
-		this.setState({ movieList: movies.Search });
+        if(this.state.text) {
+            this.handleToggleLoading(true);
+            let movies = await OmdbService.search(this.state.text);
+            this.handleToggleLoading(false);
+            this.setState({ movieList: movies.Search });
+        } else {
+            alert('Enter a title')
+        }
 	};
 
-	showDetails = item => {
+	showDetails = async (item: any) => {
+        this.handleToggleLoading(true);
+		let movie = await OmdbService.detail(item.imdbID);
+		this.handleToggleLoading(false);
+        this.props.store.movieDetail = movie
 		this.props.navigation.navigate('Detail');
 	};
 
-	_keyExtractor = (item, index) => {
+	_keyExtractor = (item : any, index : number) => {
 		return item.imdbID;
 	};
 
@@ -100,11 +112,20 @@ export default class SearchScreen extends Component<IAppProps, SearchScreenState
 						visible={this.state.loading}
 						style={{ height: this.state.windowHeight, width: this.state.windowWidth }}
 					/>
-					<FlatList
-						data={this.state.movieList}
-						keyExtractor={this._keyExtractor}
-						renderItem={this._renderItem}
-					/>
+                    {
+                        (!this.state.movieList || this.state.movieList.length == 0) &&
+                        <Text>
+                            No results
+                        </Text>
+                    }
+                    {
+                        this.state.movieList && this.state.movieList.length > 0 &&
+                        <FlatList
+                            data={this.state.movieList}
+                            keyExtractor={this._keyExtractor}
+                            renderItem={this._renderItem}
+                        />
+                    }
 				</Content>
 			</Container>
 		);
